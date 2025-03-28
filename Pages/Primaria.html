@@ -62,7 +62,7 @@
       <div class="containerForm">
         <div class="containerFormCard">
           <h1 class="containerTitle">Agregar Alumno</h1>
-          <form>
+          <form id="form-student">
             <div class="containerFormInput">
               <label for="name">Nombre</label>
               <input type="text" id="name" name="name" required />
@@ -83,9 +83,7 @@
             </div>
             <div class="containerFormInput">
               <label for="language">Idioma</label>
-              <select id="language" name="language" required>
-                <!-- SE INSERTARAN LOS LENGUAJES MEDIANTE JS -->
-              </select>
+              <select id="language" name="language" required></select>
             </div>
             <button type="submit">Agregar</button>
           </form>
@@ -93,7 +91,7 @@
       </div>
     </div>
   </body>
-  <footer>
+  <!-- <footer>
     <div class="footer">
       <div class="footerLogo">
         <img src="../img/Nav/Logo.png" alt="Logo" class="logo" />
@@ -118,23 +116,8 @@
         </ul>
       </div>
     </div>
-  </footer>
+  </footer> -->
   <script src="../API/languagesService.js"></script>
   <script src="../API/studentService.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@4.0.1/dist/js/multi-select-tag.min.js"></script>
-  <script>
-    async function initializeLanguages() {
-      //await insertLanguages();
-      var tagSelector = new MultiSelectTag("language", {
-        maxSelection: 5, // default unlimited.
-        required: true, // default false.
-        placeholder: "Search tags", // default 'Search'.
-        onChange: function (selected) {
-          // Callback when selection changes.
-          console.log("Selection changed:", selected);
-        },
-      });
-    }
-    initializeLanguages();
-  </script>
 </html>
