@@ -1,4 +1,4 @@
-var baseURL = "http://26.26.10.104:8000/api/";
+var baseURL = "http://26.184.59.112:8000/api/";
 var select = document.getElementById("language");
 var selectedLanguages = [];
 
@@ -31,7 +31,6 @@ async function getLanguages(endpoint) {
 async function insertLanguages() {
   try {
     var languages = await getLanguages("languages");
-    console.log(languages);
     languages.forEach((element) => {
       select.innerHTML += `<option value="${element.id}">${element.name}</option>`;
     });
