@@ -12,6 +12,10 @@ var email = document.getElementById("email");
 
 var phone = document.getElementById("phone");
 
+var btn = document.getElementById("btn-form");
+
+var editing = null;
+
 async function getStudents() {
   try {
     const response = await fetch(baseURL + "students");
@@ -73,18 +77,29 @@ async function deleteStudent(id) {
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
+
   const student = {
-    name: document.getElementById("name").value,
-    email: document.getElementById("email").value,
-    phone: document.getElementById("phone").value,
+    name: completeName.value,
+    email: email.value,
+    phone: phone.value,
     language: tagSelector.getSelectedTags().map((tag) => tag.id),
   };
 
-  console.log(student);
-  await postStudents(student);
-  insertStudents();
-});
+  console.log("Estudiante a enviar:", student);
 
+  if (editing) {
+    // Si editingId tiene un valor, significa que estamos editando
+    await updateStudent(editing, student);
+    editing = null; // Resetear el ID después de actualizar
+    btn.innerHTML = "Guardar"; // Volver a cambiar el botón
+  } else {
+    // Si editingId es null, estamos creando un nuevo estudiante
+    await postStudents(student);
+  }
+
+  insertStudents(); // Actualizar la tabla después de guardar
+  form.reset(); // Limpiar el formulario
+});
 async function postStudents(student) {
   try {
     const response = await fetch(baseURL + "students", {
@@ -121,10 +136,36 @@ async function editStudent(id) {
     phone.value = data.phone;
     initializeLanguages(true, id);
 
+    editing = id;
+    btn.innerHTML = "Actualizar";
     console.log(data);
   } catch (error) {
     console.log(error);
   }
 }
 
+async function updateStudent(id, student) {
+  try {
+    const response = await fetch(baseURL + "students/" + id, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        name: student.name,
+        email: student.email,
+        phone: student.phone,
+        languages: student.language,
+      }),
+    });
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error(errorData.message);
+    }
+
+    const data = await response.json();
+    return data.message;
+  } catch (error) {}
+}
 insertStudents();
