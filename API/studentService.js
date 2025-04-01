@@ -10,12 +10,10 @@ async function getStudents() {
   try {
     const response = await fetch(baseURL + "students");
     const data = await response.json();
-
+    console.log(response);
     console.log(data);
 
-    return data.students.original.students;
-
-
+    return data.students;
   } catch (error) {
     console.error("Error al obtener estudiantes:", error);
     return [];
@@ -23,16 +21,21 @@ async function getStudents() {
 }
 async function insertStudents() {
   try {
-    var students =  await getStudents();
+    var students = await getStudents();
 
     console.log(students);
     rows.innerHTML = "";
     students.forEach((element) => {
+      lenguaje = element.languages;
+      lenguajes =
+        element.languages?.map((item) => item.name).join(", ") ||
+        "Sin lenguaje seleccionado";
+      console.log(lenguajes);
       rows.innerHTML += `<tr>
       <td>${element.name}</td>
       <td>${element.email}</td>
       <td>${element.phone}</td>
-      <td>Ingles</td>
+      <td>${lenguajes}</td>
       
       <td><button onclick="editStudent(${element.id})">Editar</button>
       <button onclick="deleteStudent(${element.id})">Eliminar</button>
@@ -74,7 +77,6 @@ form.addEventListener("submit", async (e) => {
   insertStudents();
 });
 
-
 async function postStudents(student) {
   try {
     const response = await fetch(baseURL + "students", {
@@ -93,53 +95,5 @@ async function postStudents(student) {
     return await response.json;
   } catch (error) {}
 }
-////////////////////
-
-
-
-// async function updateStudents(id, student) {
-//   try {
-//     const response = await fetch(baseURL + "students/" + id, {
-//       method: "PUT",
-//       headers: {
-//         "Content-Type": "application/json",
-//         Accept: "application/json",
-//       },
-//       body: JSON.stringify({
-//         name: student.name,
-//         email: student.email,
-//         phone: student.phone,
-//         languages: student.language,
-//       }),
-//     });
-//     console.log(response);
-//     console.log(response.json.ok);
-//     return await response.json;
-//   } catch (error) {}
-// }
-
-async function updatepartialStudents(id, student) {
-  try {
-    const response = await fetch(baseURL + "students/" + id, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({
-        name: student.name,
-        email: student.email,
-        phone: student.phone,
-        languages: student.language,
-      }),
-    });
-     if (response.ok) {
-       insertStudents();
-     }
-    return await response.json;
-  } catch (error) {}
-}
-
-
 
 insertStudents();
