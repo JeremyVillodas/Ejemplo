@@ -6,6 +6,12 @@ var form = document.getElementById("form-student");
 
 var select = document.getElementById("language");
 
+var completeName = document.getElementById("name");
+
+var email = document.getElementById("email");
+
+var phone = document.getElementById("phone");
+
 async function getStudents() {
   try {
     const response = await fetch(baseURL + "students");
@@ -71,7 +77,7 @@ form.addEventListener("submit", async (e) => {
     name: document.getElementById("name").value,
     email: document.getElementById("email").value,
     phone: document.getElementById("phone").value,
-    language: selectedLanguages,
+    language: tagSelector.getSelectedTags().map((tag) => tag.id),
   };
 
   console.log(student);
@@ -101,7 +107,23 @@ async function postStudents(student) {
 
     const data = await response.json();
     return data.message;
+  } catch (error) {}
+}
+async function editStudent(id) {
+  try {
+    const response = await fetch(baseURL + "students/" + id, {
+      method: "GET",
+    });
+    const data = await response.json();
+
+    completeName.value = data.name;
+    email.value = data.email;
+    phone.value = data.phone;
+    initializeLanguages(true, id);
+
+    console.log(data);
   } catch (error) {
+    console.log(error);
   }
 }
 
