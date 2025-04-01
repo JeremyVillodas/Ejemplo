@@ -15,6 +15,7 @@ async function initializeLanguages() {
       selectedLanguages = selected.map((item) => parseInt(item.id));
     },
   });
+  tagSelector.clearAll();
 }
 initializeLanguages();
 

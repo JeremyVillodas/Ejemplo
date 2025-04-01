@@ -58,7 +58,9 @@ async function deleteStudent(id) {
       insertStudents();
     }
     return await response.json;
-  } catch (error) {}
+  } catch (error) {
+    console.log(error.message);
+  }
 }
 
 ////////////////
@@ -92,8 +94,15 @@ async function postStudents(student) {
         languages: student.language,
       }),
     });
-    return await response.json;
-  } catch (error) {}
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error(errorData.message);
+    }
+
+    const data = await response.json();
+    return data.message;
+  } catch (error) {
+  }
 }
 
 insertStudents();
