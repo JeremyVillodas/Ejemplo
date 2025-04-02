@@ -1,4 +1,4 @@
-var baseURL = "http://26.184.59.112:8000/api/";
+var baseURL = "http://26.63.41.255:8000/api/";
 var select = document.getElementById("language");
 var selectedLanguages = [];
 var tagSelector;
@@ -22,6 +22,7 @@ async function initializeLanguages(editing = false, id = null) {
     },
   });
 }
+
 initializeLanguages();
 
 async function getLanguages(endpoint) {

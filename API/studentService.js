@@ -1,4 +1,4 @@
-var baseURL = " http://26.184.59.112:8000/api/";
+var baseURL = " http://26.63.41.255:8000/api/";
 
 var rows = document.getElementById("tbody");
 
