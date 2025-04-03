@@ -52,7 +52,6 @@ async function insertLanguages(editing = false, id = null) {
     if (editing && id) {
       selectedLanguages = await getLanguagesForStudent(id);
     }
-
     select.innerHTML = ""; // Limpiar el select antes de llenarlo
 
     allLanguages.forEach((language) => {

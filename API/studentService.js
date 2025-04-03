@@ -18,7 +18,7 @@ var editing = null;
 
 async function getStudents() {
   try {
-    const response = await fetch(baseURL + "students");
+    const response = await fetch("http://26.63.41.255:8000/api/students");
     const data = await response.json();
     console.log(response);
     console.log(data);
@@ -92,6 +92,7 @@ form.addEventListener("submit", async (e) => {
     await updateStudent(editing, student);
     editing = null; // Resetear el ID después de actualizar
     btn.innerHTML = "Guardar"; // Volver a cambiar el botón
+    initializeLanguages();
   } else {
     // Si editingId es null, estamos creando un nuevo estudiante
     await postStudents(student);
@@ -100,6 +101,7 @@ form.addEventListener("submit", async (e) => {
   insertStudents(); // Actualizar la tabla después de guardar
   form.reset(); // Limpiar el formulario
 });
+
 async function postStudents(student) {
   try {
     const response = await fetch(baseURL + "students", {
